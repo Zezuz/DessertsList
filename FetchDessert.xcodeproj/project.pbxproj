@@ -15,7 +15,7 @@
 		78324F2E2A4AC27700286930 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78324F2C2A4AC27700286930 /* LaunchScreen.storyboard */; };
 		78324F362A4B81FB00286930 /* DessertInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78324F352A4B81FB00286930 /* DessertInfoViewController.swift */; };
 		78324F382A4B8B1400286930 /* MealsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78324F372A4B8B1400286930 /* MealsObject.swift */; };
-		78ECA1142A4E6BE80086BDF8 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECA1122A4E64510086BDF8 /* Common.swift */; };
+		78ECA1162A4F4DB10086BDF8 /* HttpFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECA1152A4F4DB10086BDF8 /* HttpFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +29,7 @@
 		78324F2F2A4AC27700286930 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78324F352A4B81FB00286930 /* DessertInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertInfoViewController.swift; sourceTree = "<group>"; };
 		78324F372A4B8B1400286930 /* MealsObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsObject.swift; sourceTree = "<group>"; };
-		78ECA1122A4E64510086BDF8 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		78ECA1152A4F4DB10086BDF8 /* HttpFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 				78324F2F2A4AC27700286930 /* Info.plist */,
 				78324F352A4B81FB00286930 /* DessertInfoViewController.swift */,
 				78324F372A4B8B1400286930 /* MealsObject.swift */,
-				78ECA1122A4E64510086BDF8 /* Common.swift */,
+				78ECA1152A4F4DB10086BDF8 /* HttpFactory.swift */,
 			);
 			path = FetchDessert;
 			sourceTree = "<group>";
@@ -149,9 +149,9 @@
 			files = (
 				78324F262A4AC27500286930 /* DessertViewController.swift in Sources */,
 				78324F222A4AC27500286930 /* AppDelegate.swift in Sources */,
+				78ECA1162A4F4DB10086BDF8 /* HttpFactory.swift in Sources */,
 				78324F242A4AC27500286930 /* SceneDelegate.swift in Sources */,
 				78324F382A4B8B1400286930 /* MealsObject.swift in Sources */,
-				78ECA1142A4E6BE80086BDF8 /* Common.swift in Sources */,
 				78324F362A4B81FB00286930 /* DessertInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

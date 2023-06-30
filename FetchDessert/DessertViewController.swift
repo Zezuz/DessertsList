@@ -13,10 +13,10 @@ class DessertViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     @IBOutlet weak var dessertTableView: UITableView!
+    let httpFactory = HTTPFactory()
     
     
-    
-    var desserts: [Meal] = []
+    var desserts: [HTTPFactory.Meal] = []
     var dessertInfo: Meals?
     
     override func viewDidLoad() {
@@ -25,17 +25,19 @@ class DessertViewController: UIViewController, UITableViewDelegate, UITableViewD
         dessertTableView.delegate = self
         dessertTableView.dataSource = self
         
-        fetchDesserts { desserts in
-            if let desserts = desserts {
-                self.desserts = desserts
-                DispatchQueue.main.async {
-                    self.dessertTableView.reloadData()
+        httpFactory.fetchDesserts { [weak self] meals in
+            DispatchQueue.main.async {
+                if let meals = meals {
+                    self?.desserts = meals
+                    self?.dessertTableView.reloadData()
+                    // Perform any additional UI updates or data handling
+                } else {
+                    print("Failed to fetch desserts.")
+                    // Optionally, show an alert or perform any other action to handle the failure
                 }
-                
-            } else {
-                print("Failed to fetch desserts.")
             }
         }
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,63 +60,13 @@ class DessertViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueDessert" {
             if let destinationVC = segue.destination as? DessertInfoViewController,
-               let dessert = sender as? Meal {
-                destinationVC.selectedDessertID = dessert.idMeal
+               let dessert = sender as? HTTPFactory.Meal,
+               let selectedDessertId = dessert.idMeal {
+                destinationVC.selectedDessertID = selectedDessertId
             }
         }
     }
-    
-    //
-    //
-    //
-    //
-    func fetchDesserts(completion: @escaping ([Meal]?) -> Void) {
-        guard let url = URL(string: "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert") else {
-            print("Invalid URL")
-            completion(nil)
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-            //
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    if let meals = json?["meals"] as? [[String: Any]] {
-                        let desserts = meals.compactMap { mealDict -> Meal? in
-                            guard let strMeal = mealDict["strMeal"] as? String,
-                                  let idMealStr = mealDict["idMeal"] as? String,
-                                  let idMeal = String?(idMealStr) else {
-                                return nil
-                            }
-                            return Meal(strMeal: strMeal, idMeal: idMeal)
-                        }
-                        completion(desserts)
-                    } else {
-                        print("Unable to parse response")
-                        completion(nil)
-                    }
-                } catch {
-                    print("Error decoding JSON: \(error.localizedDescription)")
-                    completion(nil)
-                }
-            } else {
-                print("No data received")
-                completion(nil)
-            }
-        }
-        
-        task.resume()
-    }
-    //
-    //
-    //    }
-    
+
     struct Meal {
         let strMeal: String
         let idMeal: String?

@@ -9,6 +9,8 @@ import UIKit
 
 class DessertInfoViewController: UIViewController {
     
+    let httpFactory = HTTPFactory()
+    
     @IBOutlet weak var dessertName: UILabel!
     
     @IBOutlet weak var dessertIngredients: UILabel!
@@ -23,7 +25,7 @@ class DessertInfoViewController: UIViewController {
            // dessertName.text = dessertInfo?.strMeal
            //tart and apple frangian not appearing?
             
-            fetchDessertInfo(dessertId: selectedDessertID!) { dessertInfo in
+            httpFactory.fetchDessertInfo(dessertId: selectedDessertID!) { dessertInfo in
                 DispatchQueue.main.async {
                     if let dessertInfo = dessertInfo {
                         self.dessertName.text = dessertInfo.strMeal
@@ -38,46 +40,7 @@ class DessertInfoViewController: UIViewController {
 
         }
         
-        func fetchDessertInfo(dessertId: String, completion: @escaping (Meals?) -> Void) {
-            
-            
-            guard let url = URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(dessertId)") else {
-                print("Invalid URL")
-                completion(nil)
-                return
-            }
-            
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    print("Error: \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                
-                if let data = data {
-                    do {
-                        let decoder = JSONDecoder()
-                        decoder.keyDecodingStrategy = .convertFromSnakeCase
-                        let response = try decoder.decode(DessertInfoResponse.self, from: data)
-                        
-                        if let meals = response.meals, let dessertInfo = meals.first {
-                            completion(dessertInfo)
-                        } else {
-                            print("Unable to parse response")
-                            completion(nil)
-                        }
-                    } catch {
-                        print("Error decoding JSON: \(error.localizedDescription)")
-                        completion(nil)
-                    }
-                } else {
-                    print("No data received")
-                    completion(nil)
-                }
-            }
-            
-            task.resume()
-        }
+        
         
         func updateUI() {
             dessertName.text = dessertInfo?.strMeal
