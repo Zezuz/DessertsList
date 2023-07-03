@@ -16,37 +16,30 @@ class DessertInfoViewController: UIViewController {
     @IBOutlet weak var dessertIngredients: UILabel!
     @IBOutlet weak var dessertInstructions: UILabel!
     var dessertInfo: Meals?
-        var selectedDessertID: String?
-            
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            print(selectedDessertID)
-            
-           // dessertName.text = dessertInfo?.strMeal
-           //tart and apple frangian not appearing?
-            
-            httpFactory.fetchDessertInfo(dessertId: selectedDessertID!) { dessertInfo in
-                DispatchQueue.main.async {
-                    if let dessertInfo = dessertInfo {
-                        self.dessertName.text = dessertInfo.strMeal
-                        updateIngredientsLabel(with: dessertInfo, in: self.dessertIngredients)
-                        self.dessertInstructions.text = dessertInfo.strInstructions
-                    } else {
-                        print("Failed to fetch dessert info.")
-                        // Optionally, show an alert or perform any other action to handle the failure
-                    }
+    var selectedDessertID: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(selectedDessertID)
+        
+        // dessertName.text = dessertInfo?.strMeal
+        //tart and apple frangian not appearing?
+        
+        httpFactory.fetchDessertInfo(dessertId: selectedDessertID!) { dessertInfo in
+            DispatchQueue.main.async {
+                if let dessertInfo = dessertInfo {
+                    self.dessertName.text = dessertInfo.strMeal
+                    updateIngredientsLabel(with: dessertInfo, in: self.dessertIngredients)
+                    self.dessertInstructions.text = dessertInfo.strInstructions
+                } else {
+                    print("Failed to fetch dessert info.")
+                    // Optionally, show an alert or perform any other action to handle the failure
                 }
             }
-
         }
         
-        
-        
-        func updateUI() {
-            dessertName.text = dessertInfo?.strMeal
-            // Update other UI elements using the dessertInfo data
-        }
     }
+}
 struct DessertInfoResponse: Codable {
     let meals: [Meals]?
 }
